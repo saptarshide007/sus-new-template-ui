@@ -1,0 +1,54 @@
+.form-wrapper {
+  box-shadow: 9px 5px 15px 5px #d6d6d6;
+  border-radius: 10px;
+  height: 85vh;
+  text-align: left;
+  width: 1000px;
+  margin-top: 10px;
+  /* background: linear-gradient(15deg, #d33f34 50%, #a61322 50.1%); */
+}
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(102, 99, 99, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(158, 154, 154, 0.5);
+}
+
+.form-wrapper .form-card {
+  overflow: auto;
+  width: 900px;
+  height: 65vh;
+  padding-left: 80px;
+  padding-right: 80px;
+  margin-left: 50px;
+  margin-right: 50px;
+  border-radius: 10px;
+  background-color: white;
+  font-size: 15px;
+  letter-spacing: -0.4px;
+  word-spacing: 1px;
+  color: #000000;
+  font-weight: 700;
+  text-decoration: none solid rgb(68, 68, 68);
+  position: relative;
+}
+
+.form-wrapper .nav-form {
+  position: fixed;
+  top: 75px;
+}
+
+.page-title {
+  font-weight: 100;
+  margin: 0 0 15px 0;
+  font-size: 36px;
+  text-align: center;
+  font-family: sans-serif;
+}
