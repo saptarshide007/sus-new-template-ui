@@ -1,10 +1,6 @@
-import { useParams } from 'react-router-dom';
 
-import React, { useState } from 'react';
-import { Fade } from 'react-reveal';
-import MainCard from 'ui-component/cards/MainCard';
+import React from 'react';
 
-import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 
 import Stack from '@mui/material/Stack';
@@ -13,7 +9,6 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 
-import { Grid, Button, Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,53 +16,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { useNavigate } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
 
-import { SubmitForm } from './data/Data';
 
-const ViewForm = (props) => {
-    const { id } = useParams();
-    const formData = SubmitForm.getFormById(id);
-    const navigate = useNavigate();
+const ViewFormTemplate = (props) => {
 
-    const handleRoute = () => {
-        navigate('/utils/recruitment/');
-    };
-    const saveFormHandler = () => {
-        formData.status="APPROVED"
-        handleRoute();
-    };
-    const discardFormHandler = () => {
-        formData.status="REJECTED"
-        handleRoute();
-    };
-    const Title = (props) => {
-        return (
-            <React.Fragment>
-                <Grid container spacing={1}>
-                    <Grid item xs={10}>
-                        <Typography variant="h3" component="h3">
-                            Form:{formData.position}
-                        </Typography>
-                    </Grid>
+    const formData = props.formData;
 
-                    <Grid item xs={0}>
-                        <Button variant="contained" color="primary" onClick={saveFormHandler}>
-                            Approve
-                        </Button>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Button variant="contained" color="error" onClick={discardFormHandler}>
-                            Reject
-                        </Button>
-                    </Grid>
-                </Grid>
-            </React.Fragment>
-        );
-    };
+
     function ConfigTable(props) {
-        console.log(props.rows);
         return (
             <TableContainer component={Paper} sx={{ borderColor: '#000', borderStyle: 'solid', borderWidth: '1px', width: '400px' }}>
                 <Table size="small" aria-label="a dense table">
@@ -94,8 +50,6 @@ const ViewForm = (props) => {
 
     return (
         <React.Fragment>
-            <Fade>
-                <MainCard title={<Title title={'formData.position'} />}>
                     <Stack direction="row" alignItems="center" spacing={1}>
                         <Stack spacing={3}>
                             <Stack direction="row" alignItems="center" spacing={1}>
@@ -164,10 +118,8 @@ const ViewForm = (props) => {
                             </Stack>
                         </Stack>
                     </Stack>
-                </MainCard>
-            </Fade>
         </React.Fragment>
     );
 };
 
-export default ViewForm;
+export default ViewFormTemplate;

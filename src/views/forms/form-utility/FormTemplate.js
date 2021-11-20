@@ -17,7 +17,15 @@ export default class FormTemplate {
             qualificationNotes: '',
             locationNotes: '',
             financialNotes: '',
-            status: 'CREATED'
+            status: 'CREATED',
+            createdOn:new Date(),
+            changedOn:null,
+            createdBy:'',
+            approvedBy:'',
+            rejectedReason:'',
+            reWork:''
+            
+
         };
     }
     getNewForm()

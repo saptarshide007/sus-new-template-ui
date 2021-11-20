@@ -6,11 +6,12 @@ import MainCard from 'ui-component/cards/MainCard';
 import SubCard from 'ui-component/cards/SubCard';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Grid, Button } from '@mui/material';
+import { Grid, Button,TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import { SubmitForm } from './data/Data';
 import { useNavigate } from 'react-router-dom';
 import { Fade } from 'react-reveal';
+import { red, green, orange, grey } from '@mui/material/colors';
 const CreateRequisition = (props) => {
     let title = 'Create New Requisition';
     if (props.isEdit) {
@@ -19,6 +20,31 @@ const CreateRequisition = (props) => {
     } else {
         PositionForm.refreshForm();
     }
+    const ReworkNotes = () => {
+        console.log(PositionForm.getCompleteForm());
+        if (PositionForm.getCompleteForm().status === 'REWORK') {
+            console.log('-----------------------');
+            return( <Grid item xs={50}>
+                <SubCard title="ReWork Notes">
+                    <TextField
+                    error
+                        id="outlined-multiline-static"
+                        value={PositionForm.getCompleteForm().reWork}
+                        label="Description"
+                        multiline
+                        rows={4}
+                        sx={{ width: 600,color:red[500] }}
+                        InputProps={{
+                            readOnly: true
+                        }}
+                    />
+                </SubCard>
+            </Grid>);
+        }
+         else {
+            return <React.Fragment></React.Fragment>;
+        }
+    };
 
     function TabPanel(props) {
         const { children, value, index, ...other } = props;
@@ -133,6 +159,7 @@ const CreateRequisition = (props) => {
         <Fade>
             <MainCard title={<Title />}>
                 <Grid container spacing={2}>
+                    <ReworkNotes />
                     <Grid item xs={12}>
                         <SubCard title="Basic Details">
                             <div>{PositionForm.getForm(0)}</div>

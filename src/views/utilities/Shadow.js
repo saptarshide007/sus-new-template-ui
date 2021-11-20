@@ -9,7 +9,6 @@ import { useState, React } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import ApprovalTab from './reqisition-tabs/ApprovalTab';
 import { Fade } from 'react-reveal';
 
 function TabPanel(props) {
@@ -65,7 +64,16 @@ function UtilitiesShadow() {
                     <RequisitionTab tab={2} />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <ApprovalTab />
+                    <RequisitionTab tab={3} />
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    <RequisitionTab tab={4} />
+                </TabPanel>
+                <TabPanel value={value} index={4}>
+                    <RequisitionTab tab={5} />
+                </TabPanel>
+                <TabPanel value={value} index={5}>
+                    <RequisitionTab tab={6} />
                 </TabPanel>
             </MainCard>
         </Fade>

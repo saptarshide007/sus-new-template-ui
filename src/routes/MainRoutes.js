@@ -5,7 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import CreateRequisition from 'views/forms/CreateRequisition';
 import EditForm from 'views/forms/EditForm';
-import ViewForm from 'views/forms/ViewForm';
+import ApprovalForm from 'views/forms/ApprovalForm';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -26,7 +26,7 @@ const MainRoutes = {
     children: [
         {
             path: '/utils/recruitment/approval/:id',
-            element: <ViewForm />
+            element: <ApprovalForm />
         },
         {
             path: '/',
