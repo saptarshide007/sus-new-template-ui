@@ -7,35 +7,34 @@ import { DataGrid } from '@mui/x-data-grid';
 import { SubmitForm } from 'views/forms/data/Data';
 import { useNavigate } from 'react-router-dom';
 
-
- const renderDetailsButton = (params) => {
-        return (
-            <strong>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{ marginLeft: 16 }}
-                    onClick={() => {
-                        parseName(params.row.col6)
-                    }}
-                >
-                    More Info
-                </Button>
-                <Button
-                    variant="contained"
-                    color="primary"
-                    size="small"
-                    style={{ marginLeft: 16 }}
-                    onClick={() => {
-                        parseName(params.row.col6)
-                    }}
-                >
-                    More Info
-                </Button>
-            </strong>
-        )
-    }
+const renderDetailsButton = (params) => {
+    return (
+        <strong>
+            <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                style={{ marginLeft: 16 }}
+                onClick={() => {
+                    parseName(params.row.col6);
+                }}
+            >
+                More Info
+            </Button>
+            <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                style={{ marginLeft: 16 }}
+                onClick={() => {
+                    parseName(params.row.col6);
+                }}
+            >
+                More Info
+            </Button>
+        </strong>
+    );
+};
 const columns = [
     { field: 'id', headerName: 'ID', width: 70 },
     { field: 'position', headerName: 'Position', width: 140 },
@@ -52,42 +51,63 @@ const columns = [
         type: 'date',
         width: 150
     },
-    { field: 'status', headerName: 'Status', width: 130 },
-    { field: 'action', headerName: '', width: 230,
-    renderCell: renderDetailsButton }
+    { field: 'status', headerName: 'Status', width: 160 }
 ];
 
-
-
-
-const RequisitionTab = () => { 
-    
-    const FormList=SubmitForm.getList();
+const RequisitionTab = (props) => {
+    const FormList = SubmitForm.getList();
     function DataTable() {
-    const navigate = useNavigate();
+        const navigate = useNavigate();
 
-    const handleRoute = (id) => {
-        navigate(`/utils/recruitment/update/${id}`);
-    };
-    const rows =[...FormList].map(value=>
+        const handleRoute = (id, status) => {
+            if (status === 'CREATED') navigate(`/utils/recruitment/update/${id}`);
+            else navigate(`/utils/recruitment/approval/${id}`);
+        };
+        let filterList = null;
+        if (props.tab === 1) {
+            filterList = FormList;
+        } else if (props.tab === 2) {
+            filterList = new Map([...FormList].filter((value) => value[1].status != 'CREATED'));
+        }
+        const rows = [...filterList].map((value) => ({
+            id: value[0],
+            position: value[1].position,
+            type: value[1].type.code,
+            startDate: value[1].startDate,
+            stopDate: value[1].endDate,
+            status: value[1].status
+        }));
+        return (
+            <div style={{ height: 400, margin: 'auto' }}>
+                <DataGrid
+                    onRowDoubleClick={(params, event) => {
+                        handleRoute(params.row.id, params.row.status);
+                    }}
+                    rows={rows}
+                    columns={columns}
+                    pageSize={5}
+                    rowsPerPageOptions={[5]}
+                />
+            </div>
+        );
+    }
 
-  ( {id:value[0], position:value[1].position,type:value[1].type.code,startDate:value[1].startDate,stopDate:value[1].endDate,status:value[1].status}));
     return (
-        <div style={{ height: 400, margin:"auto" }}>
-            <DataGrid  onRowDoubleClick={(params, event)=>{handleRoute(params.row.id)}} rows={rows} columns={columns} pageSize={5} rowsPerPageOptions={[5]} />
-        </div>
+        <Fragment>
+            <Link to="/utils/recruitment/new">
+                <Button
+                    style={{ marginBottom: '10px' }}
+                    variant="outlined"
+                    startIcon={<AddOutlinedIcon />}
+                    size="large"
+                    href="/utils/recruitment/new"
+                >
+                    New Requisition
+                </Button>
+            </Link>
+            <DataTable />
+        </Fragment>
     );
-}
-
-    return(
-    <Fragment>
-        <Link to="/utils/recruitment/new">
-        <Button style={{marginBottom:"10px"}}variant="outlined" startIcon={<AddOutlinedIcon />} size="large" href="/utils/recruitment/new">  
-            New Requisition
-        </Button>
-        </Link>
-        <DataTable />
-    </Fragment>
-)};
+};
 
 export default RequisitionTab;

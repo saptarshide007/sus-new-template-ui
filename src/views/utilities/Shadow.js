@@ -47,27 +47,27 @@ function UtilitiesShadow() {
     }
     return (
         <Fade>
-        <MainCard title="Recruitment">
-            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                    <Tab label="My Requisition" {...a11yProps(0)} />
-                    <Tab label="All Requisition" {...a11yProps(1)} />
-                    <Tab label="Pending Approval" {...a11yProps(2)} />
-                    <Tab label="Approved" {...a11yProps(3)} />
-                    <Tab label="Pannel Reviews" {...a11yProps(4)} />
-                    <Tab label="Talent Search" {...a11yProps(5)} />
-                </Tabs>
-            </Box>
-            <TabPanel value={value} index={0}>
-                <RequisitionTab />
-            </TabPanel>
-            <TabPanel value={value} index={1}>
-                <RequisitionTab />
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <ApprovalTab/>
-            </TabPanel>
-        </MainCard>
+            <MainCard title="Recruitment">
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                        <Tab label="My Requisition" {...a11yProps(0)} />
+                        <Tab label="Requisition" {...a11yProps(1)} />
+                        <Tab label="Pending Approval" {...a11yProps(2)} />
+                        <Tab label="Approved" {...a11yProps(3)} />
+                        <Tab label="Rejected" {...a11yProps(4)} />
+                        <Tab label="Awaiting Action" {...a11yProps(5)} />
+                    </Tabs>
+                </Box>
+                <TabPanel value={value} index={0}>
+                    <RequisitionTab tab={1} />
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <RequisitionTab tab={2} />
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <ApprovalTab />
+                </TabPanel>
+            </MainCard>
         </Fade>
     );
 }
