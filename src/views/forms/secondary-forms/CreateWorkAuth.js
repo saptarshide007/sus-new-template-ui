@@ -1,10 +1,13 @@
-import { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { useState, React } from 'react';
+import SaveIcon from '@mui/icons-material/Save';
+import { Stack,TextField } from '@mui/material';
+import Button from '@mui/material/Button';
+
 
 const CreateWorkAuth = (props) => {
     const [form, setFormValue] = useState({ code: '', description: '' });
     const formSubmitHandler = () => {
-        props.onAddHandler({ name: form.code, description: form.description });
+        props.onAddHandler(form);
         props.onHide();
     };
     const updateFormData = (value, id) => {
@@ -13,34 +16,35 @@ const CreateWorkAuth = (props) => {
     };
 
     return (
-        <Modal {...props} size="md" aria-labelledby="contained-modal-title-vcenter" centered>
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">Create New Work Authorization</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form.Floating className="mb-2">
-                    <Form.Control
-                        id="floatingInputCustom"
-                        type="email"
-                        placeholder="name@example.com"
+        <Stack direction="row" alignItems="center" spacing={1}>
+            <Stack spacing={3}>
+                <Stack alignItems="center" spacing={1}>
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="WorkAuthorization Code"
+                        
+                        size="small"
+                        sx={{ width: 300 }}
                         onChange={(e) => updateFormData(e.target.value, 1)}
                     />
-                    <label htmlFor="floatingInputCustom">Work Authorization Code</label>
-                </Form.Floating>
-                <Form.Floating className="mb-2">
-                    <Form.Control
-                        id="floatingPasswordCustom"
-                        type="password"
-                        placeholder="Password"
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Description"
+                        row={3}
+                        
+                        size="small"
+                        sx={{ width: 300 }}
                         onChange={(e) => updateFormData(e.target.value, 2)}
                     />
-                    <label htmlFor="floatingPasswordCustom">Description</label>
-                </Form.Floating>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={formSubmitHandler}>Create</Button>
-            </Modal.Footer>
-        </Modal>
+
+                    <Button color="secondary" variant="outlined" startIcon={<SaveIcon />} size="medium" onClick={formSubmitHandler}>
+                        Save
+                    </Button>
+                </Stack>
+            </Stack>
+        </Stack>
     );
 };
 export default CreateWorkAuth;

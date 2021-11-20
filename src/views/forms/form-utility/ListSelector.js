@@ -1,76 +1,69 @@
 /* eslint-disable no-debugger, no-console */
 import styles from '../../../resources/css/modules/ListSelector.module.css';
 import { Fade } from 'react-reveal';
-
-import { BsFillTrashFill, BsCheckLg } from 'react-icons/bs';
-
-import { Button, ToggleButton, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Checkbox from '@mui/material/Checkbox';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import { Grid } from '@mui/material';
+import Slider from '@mui/material/Slider';
 import { useState } from 'react';
-
-const TipOnHover = ({ key, placement, tip, children }) => (
-    <OverlayTrigger key={key} placement={placement} overlay={<Tooltip>{tip}</Tooltip>}>
-        {children}
-    </OverlayTrigger>
-);
-
-const MandatoryMarker = ({ value }) => {
-    const [checked, setChecked] = useState(false);
+const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+const Box = ({ value, propertyChangeHandler }) => {
+const [isMandatory,setMandatory]=useState(propertyChangeHandler.get(value).mandatory);
+const [weight,setWeight]=useState(propertyChangeHandler.get(value).weight);
+    const weightChangeHandler = (weight) => {
+        setWeight(weight);
+        propertyChangeHandler.get(value).weight=weight;
+    };
+    const mandatoryChangeHandler = (flag) => {
+        setMandatory(flag);
+        propertyChangeHandler.get(value).mandatory=flag;
+    };
     return (
-        <TipOnHover key="weight" placement="top" tip={checked ? 'SetNonMandatory' : 'SetMandatory'}>
-            <ToggleButton
-                className="mb-0"
-                id={value}
-                type="checkbox"
-                variant="outline-success"
-                checked={checked}
-                value="1"
-                onChange={(e) => setChecked(e.currentTarget.checked)}
-                size="md"
-            >
-                <BsCheckLg />
-            </ToggleButton>
-        </TipOnHover>
-    );
-};
-
-const Box = ({ value }) => (
-    <Fade left>
-        <div className={`${styles['box']}`}>
-            <div className={`${styles['box__inner']}`}>
-                <div className={`${styles['title']}`}>
-                    <p>{value}</p>
-                </div>
-                <div className={`${styles['action']}`}>
-                    <TipOnHover key="weight" placement="top" tip="Weight">
-                        <input
-                            type="number"
-                            id="quantity"
-                            name="quantity"
-                            min="1"
-                            max="10"
-                            defaultValue="1"
-                            className={`${styles['weight-input']}`}
-                            onChange={(e) => console.log(e.target.value)}
-                        />
-                    </TipOnHover>
-                    <div>
-                        <MandatoryMarker value={value} />{' '}
-                        <TipOnHover key="weight" placement="top" tip="Delete">
-                            <Button variant="danger" size="md" on>
-                                <BsFillTrashFill onClick={() => console.log('----------')} />
-                            </Button>
-                        </TipOnHover>
-                    </div>
+        <Fade left>
+            <div className={`${styles['box']}`}>
+                <div className={`${styles['box__inner']}`}>
+                    <Grid container spacing={1}>
+                        <Grid item xs={7}>
+                            <div className={`${styles['title']}`}>
+                                <p>{value}</p>
+                            </div>
+                        </Grid>
+                        <Grid item xs={1} sx={{ marginRight: 1 }}>
+                            <Checkbox
+                                
+                                icon={<PriorityHighIcon />}
+                                checkedIcon={<PriorityHighIcon />}
+                                onChange={(event) => mandatoryChangeHandler(event.target.checked)}
+                                color="error"
+                                checked={isMandatory}
+                            />
+                        </Grid>
+                        <Grid item xs={3} sx={{ marginTop: 0.5 }}>
+                            <Slider
+                                aria-label="Temperature"
+                                
+                                value={weight}
+                                getAriaValueText={(value) => value}
+                                valueLabelDisplay="auto"
+                                step={1}
+                                marks
+                                min={1}
+                                max={10}
+                                onChange={(event) => weightChangeHandler(event.target.value)}
+                            />
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
-        </div>
-    </Fade>
-);
-const ListSelector = ({ list }) => {
+        </Fade>
+    );
+};
+const ListSelector = (props) => {
+    console.log(props.propertyChangeHandler);
     return (
         <div className={`${styles['skill-list-wrapper']}`}>
-            {list.map((k) => (
-                <Box key={k.label} value={k.label} object={k} />
+            {props.list.map((k) => (
+                <Box value={k.label} propertyChangeHandler={props.propertyChangeHandler} />
             ))}
         </div>
     );

@@ -1,6 +1,10 @@
 class SkillListData {
   constructor(skillList) {
-    this.skillList = ["DataScience", "Java", "Angular"];
+    this.skillList = [
+      { code: "Java", description: "This is a sample description" },
+      { code: "Oracle", description: "Meachanocal description" },
+      { code: "AWS", description: "CivilDescription" },
+    ];
   }
   getList() {
     return this.skillList;
@@ -27,7 +31,11 @@ class JobTypeListData {
 
 class CertificationListData {
   constructor(certificationList) {
-    this.certificationList = ["AWS", "Oracle8", "Java11"];
+    this.certificationList = [
+      { code: "AWS Developer", description: "" },
+      { code: "Associate Developer Oracle", description: "" },
+      { code: "Redhat Certified", description: "" },
+    ];
   }
   getList() {
     return this.certificationList;
@@ -39,7 +47,11 @@ class CertificationListData {
 
 class QualificationListData {
   constructor(qualificationList) {
-    this.qualificationList = ["10th", "12th", "BE", "BTech", "B.Sc"];
+    this.qualificationList = [
+      { code: "10th", description: "" },
+      { code: "12th", description: "" },
+      { code: "B.tech", description: "" },
+    ];
   }
   getList() {
     return this.qualificationList;
@@ -51,9 +63,9 @@ class QualificationListData {
 class RolesListData {
   constructor(roleList) {
     this.roleList = [
-      { name: "Role1", description: "" },
-      { name: "Role2", description: "" },
-      { name: "Role3", description: "" },
+      { code: "Manager", description: "" },
+      { code: "Senior Developer", description: "" },
+      { code: "Director", description: "" },
     ];
   }
   getList() {
@@ -67,9 +79,9 @@ class RolesListData {
 class WorkAuthListData {
   constructor(workAuthList) {
     this.workAuthList = [
-      { name: "Australia", description: "" },
-      { name: "India", description: "" },
-      { name: "Mining", description: "" },
+      { code: "Australia", description: "" },
+      { code: "India", description: "" },
+      { code: "Mining", description: "" },
     ];
   }
   getList() {
@@ -80,6 +92,27 @@ class WorkAuthListData {
   }
   getDescription(name) {}
 }
+class FormDataSubmit{
+  constructor(formList,nextId)
+  {
+    this.formList=new Map();
+    this.nextId=1
+  }
+  getList() {
+    return this.formList;
+  }
+    getFormById(id) {
+    return this.formList.get(Number(id));
+  }
+  add(submittedForm) {
+    this.formList.set(this.nextId,submittedForm);
+    this.nextId=this.nextId+1;
+  }
+    update(id,submittedForm) {
+    this.formList.set(Number(id),submittedForm);
+  }
+}
+export const SubmitForm = new FormDataSubmit();
 export const SkillData = new SkillListData();
 export const JobTypeData = new JobTypeListData();
 export const CertData = new CertificationListData();

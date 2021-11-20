@@ -1,110 +1,135 @@
-import { ProgressBar } from 'react-bootstrap';
-import styles from '../../resources/css/modules/Requisition.module.css';
 import React, { useState } from 'react';
 import PositionForm from './secondary-forms/PositionForm';
 import Box from '@mui/material/Box';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { BsFillArrowLeftCircleFill, BsFillArrowRightCircleFill } from 'react-icons/bs';
 import MainCard from 'ui-component/cards/MainCard';
+import SubCard from 'ui-component/cards/SubCard';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import { Grid, Button } from '@mui/material';
+import PropTypes from 'prop-types';
+import { SubmitForm } from './data/Data';
+import { useNavigate } from 'react-router-dom';
+import { Fade } from 'react-reveal';
+const CreateRequisition = (props) => {
+    let title = 'Create New Requisition';
+    if (props.isEdit) {
+        PositionForm.setForm(props.FormId);
+        title = 'Edit Requisition';
+    } else {
+        PositionForm.refreshForm();
+    }
 
-const CreateRequisition = () => {
-    const steps = ['', '', ''];
-    const [activeForm, setActiveForm] = useState(PositionForm.getActive());
-    const [activeStep, setActiveStep] = useState(0);
-    const [skipped, setSkipped] = React.useState(new Set());
+    function TabPanel(props) {
+        const { children, value, index, ...other } = props;
 
-    const isStepOptional = (step) => {
-        return false;
+        return (
+            <div
+                role="tabpanel"
+                hidden={value !== index}
+                id={`simple-tabpanel-${index}`}
+                aria-labelledby={`simple-tab-${index}`}
+                {...other}
+            >
+                {value === index && (
+                    <Box sx={{ p: 3 }}>
+                        <Typography>{children}</Typography>
+                    </Box>
+                )}
+            </div>
+        );
+    }
+
+    TabPanel.propTypes = {
+        children: PropTypes.node,
+        index: PropTypes.number.isRequired,
+        value: PropTypes.number.isRequired
     };
-    const isStepSkipped = (step) => {
-        return skipped.has(step);
+    const [value, setValue] = useState(0);
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
     };
-    const handleNext = () => {
-        let newSkipped = skipped;
-        if (isStepSkipped(activeStep)) {
-            newSkipped = new Set(newSkipped.values());
-            newSkipped.delete(activeStep);
+    function a11yProps(index) {
+        return {
+            id: `simple-tab-${index}`,
+            'aria-controls': `simple-tabpanel-${index}`
+        };
+    }
+    const navigate = useNavigate();
+
+    const handleRoute = () => {
+        navigate('/utils/recruitment/');
+    };
+    const saveFormHandler = () => {
+        if (props.isEdit) {
+            SubmitForm.update(props.FormId, PositionForm.getCompleteForm());
+        } else {
+            SubmitForm.add(PositionForm.getCompleteForm());
         }
-        setActiveForm(PositionForm.getForm(activeStep + 1));
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped(newSkipped);
+        PositionForm.refreshForm();
+        handleRoute();
     };
-    const handleSkip = () => {
-        if (!isStepOptional(activeStep)) {
-            throw new Error("You can't skip a step that isn't optional.");
-        }
+    const discardFormHandler = () => {
+        PositionForm.refreshForm();
+        handleRoute();
+    };
+    const Title = () => {
+        return (
+            <React.Fragment>
+                <Grid container spacing={1}>
+                    <Grid item xs={10}>
+                        <Typography variant="h1" component="h2">
+                            {title}
+                        </Typography>
+                    </Grid>
 
-        setActiveStep((prevActiveStep) => prevActiveStep + 1);
-        setSkipped((prevSkipped) => {
-            const newSkipped = new Set(prevSkipped.values());
-            newSkipped.add(activeStep);
-            return newSkipped;
-        });
-    };
-    const handleBack = () => {
-        setActiveForm(PositionForm.getForm(activeStep - 1));
-        setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-    const handleReset = () => {
-        setActiveForm(PositionForm.getForm(0));
-        setActiveStep(0);
+                    <Grid item xs={0}>
+                        <Button variant="contained" color="success" onClick={saveFormHandler}>
+                            Save
+                        </Button>
+                    </Grid>
+                    <Grid item xs={1}>
+                        <Button variant="contained" color="error" onClick={discardFormHandler}>
+                            Discard
+                        </Button>
+                    </Grid>
+                </Grid>
+            </React.Fragment>
+        );
     };
     return (
-        <MainCard title="Create New Requisition">
-            <div className={`${styles['form-wrapper']}`}>
-                <Box sx={{ width: '100%' }}>
-                    <Stepper activeStep={activeStep}>
-                        {steps.map((label, index) => {
-                            const stepProps = {};
-                            const labelProps = {};
-                            if (isStepOptional(index)) {
-                                labelProps.optional = <Typography variant="caption">Optional</Typography>;
-                            }
-                            if (isStepSkipped(index)) {
-                                stepProps.completed = false;
-                            }
-                            return (
-                                <Step key={label} {...stepProps}>
-                                    <StepLabel {...labelProps}>{label}</StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
-                    {activeStep === steps.length ? (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                <Button onClick={handleReset}>Reset</Button>
-                            </Box>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-                            <div className={`${styles['form-card']}`}>{activeForm}</div>
-                            <div className={`${styles['nav-form']}`}></div>
-                            <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                                <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                                    Back
-                                </Button>
-                                <Box sx={{ flex: '1 1 auto' }} />
-                                {isStepOptional(activeStep) && (
-                                    <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                                        Skip
-                                    </Button>
-                                )}
-
-                                <Button onClick={handleNext}>{activeStep === steps.length - 1 ? 'Finish' : 'Next'}</Button>
-                            </Box>
-                        </React.Fragment>
-                    )}
-                </Box>
-            </div>
+        <Fade>
+        <MainCard title={<Title />}>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <SubCard title="Basic Details">
+                        <div>{PositionForm.getForm(0)}</div>
+                    </SubCard>
+                </Grid>
+                <Grid item xs={12}>
+                    <SubCard title="Configuration">
+                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                                <Tab label="Job Requirement" {...a11yProps(0)} />
+                                <Tab label="Qualification" {...a11yProps(1)} />
+                                <Tab label="Location & Work Authorization" {...a11yProps(2)} />
+                                <Tab label="Financial" {...a11yProps(3)} />
+                            </Tabs>
+                        </Box>
+                        <TabPanel value={value} index={0}>
+                            {PositionForm.getForm(1)}
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            {PositionForm.getForm(2)}
+                        </TabPanel>
+                        <TabPanel value={value} index={2}>
+                            {PositionForm.getForm(3)}
+                        </TabPanel>
+                    </SubCard>
+                </Grid>
+            </Grid>
         </MainCard>
+        </Fade>
     );
 };
 export default CreateRequisition;

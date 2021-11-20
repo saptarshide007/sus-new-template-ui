@@ -1,67 +1,31 @@
 // assets
-import { IconTypography, IconPalette, IconShadow, IconWindmill } from '@tabler/icons';
+import { IconTypography, IconPalette, IconShadow, IconWindmill,IconUsers } from '@tabler/icons';
 
 // constant
 const icons = {
     IconTypography,
     IconPalette,
     IconShadow,
-    IconWindmill
+    IconWindmill,
+    IconUsers
 };
 
 // ==============================|| UTILITIES MENU ITEMS ||============================== //
 
 const utilities = {
     id: 'utilities',
-    title: 'Utilities',
+    title: 'Applications',
     type: 'group',
     children: [
-        {
-            id: 'util-typography',
-            title: 'Typography',
-            type: 'item',
-            url: '/utils/util-typography',
-            icon: icons.IconTypography,
-            breadcrumbs: false
-        },
-        {
-            id: 'util-color',
-            title: 'Color',
-            type: 'item',
-            url: '/utils/util-color',
-            icon: icons.IconPalette,
-            breadcrumbs: false
-        },
         {
             id: 'util-shadow',
             title: 'Recruitment',
             type: 'item',
             url: '/utils/recruitment',
-            icon: icons.IconShadow,
+            icon: icons.IconUsers,
             breadcrumbs: false
         },
-        {
-            id: 'icons',
-            title: 'Icons',
-            type: 'collapse',
-            icon: icons.IconWindmill,
-            children: [
-                {
-                    id: 'tabler-icons',
-                    title: 'Tabler Icons',
-                    type: 'item',
-                    url: '/icons/tabler-icons',
-                    breadcrumbs: false
-                },
-                {
-                    id: 'material-icons',
-                    title: 'Material Icons',
-                    type: 'item',
-                    url: '/icons/material-icons',
-                    breadcrumbs: false
-                }
-            ]
-        }
+       
     ]
 };
 

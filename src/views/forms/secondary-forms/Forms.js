@@ -2,38 +2,35 @@ import React, { useState } from 'react';
 import BasicForm from '../primary-forms/BasicForm';
 import DemographicForm from '../primary-forms/DemographicForm';
 import { SkillData, JobTypeData, CertData, QualificationData, RolesData, WorkAuthData } from '../data/Data';
-import CredentialForm from '../primary-forms/CredentialForm';
+import QualificationForm from '../primary-forms/QualificationForm';
+import RequirementForm from '../primary-forms/RequirementForm';
+import FormTemplate from '../form-utility/FormTemplate';
 
-const formData = {
-    position: '',
-    description: '',
-    type: '',
-    startDate: null,
-    endDate: null,
-    skills: [],
-    certification: [],
-    qualification: [],
-    location: [],
-    workAuthorizaion: [],
-    financial: [],
-    roles: [],
-    status: ''
-};
+let formData = new FormTemplate().getNewForm();
+export const getCompleteForm=()=>{
+ return formData;
+}
+export const refreshForm=()=>{
+formData = new FormTemplate().getNewForm();
+}
+export const setForm=(form)=>{
+formData = form;
+}
 const Forms = (props) => {
     const [skillList, setSkills] = useState(SkillData.getList());
     const [typeList, setType] = useState(JobTypeData.getList());
     const [certList, setCert] = useState(CertData.getList());
-    const [roleList, setRole] = useState(RolesData.getList().map((role) => role.name));
-    const [workAuthList, setWorkAuth] = useState(WorkAuthData.getList().map((workAuth) => workAuth.name));
+    const [roleList, setRole] = useState(RolesData.getList());
+    const [workAuthList, setWorkAuth] = useState(WorkAuthData.getList());
     const [qualificationList, setQualification] = useState(QualificationData.getList());
 
     const addNewWorkAuth = (workAuth) => {
         WorkAuthData.add(workAuth);
-        setWorkAuth(WorkAuthData.getList().map((workAuth) => workAuth.name));
+        setWorkAuth(WorkAuthData.getList());
     };
     const addNewRole = (role) => {
         RolesData.add(role);
-        setRole(RolesData.getList().map((role) => role.name));
+        setRole(RolesData.getList());
     };
     const addNewType = (type) => {
         JobTypeData.add(type);
@@ -53,19 +50,30 @@ const Forms = (props) => {
     };
     if (props.form === 0)
         return <BasicForm roleList={roleList} addNewRole={addNewRole} formData={formData} typeList={typeList} addNewType={addNewType} />;
-    if (props.form === 1)
+     if (props.form === 1)
         return (
-            <CredentialForm
+            <RequirementForm
+
+                formData={formData}
+                skillList={skillList}
+                addNewSkill={addNewSkill}
+                roleList={roleList}
+                addNewRole={addNewRole}
+                
+            />
+        );
+    
+        if (props.form === 2)
+        return (
+            <QualificationForm
                 certList={certList}
                 qualificationList={qualificationList}
                 addNewCert={addNewCert}
                 addNewQualification={addNewQualification}
                 formData={formData}
-                skillList={skillList}
-                addNewSkill={addNewSkill}
             />
         );
-    if (props.form === 2) return <DemographicForm workAuthList={workAuthList} addNewWorkAuth={addNewWorkAuth} formData={formData} />;
+    if (props.form === 3) return <DemographicForm workAuthList={workAuthList} addNewWorkAuth={addNewWorkAuth} formData={formData} />;
 };
 
 export default Forms;

@@ -53,21 +53,19 @@ const columns = [
         width: 150
     },
     { field: 'status', headerName: 'Status', width: 130 },
-    { field: 'action', headerName: '', width: 230,
-    renderCell: renderDetailsButton }
 ];
 
 
 
 
-const RequisitionTab = () => { 
+const ApprovalTab = () => { 
     
-    const FormList=SubmitForm.getList();
+    const FormList=new Map([...SubmitForm.getList()].filter(value=>value[1].status==="CREATED"));
     function DataTable() {
     const navigate = useNavigate();
 
     const handleRoute = (id) => {
-        navigate(`/utils/recruitment/update/${id}`);
+        navigate(`/utils/recruitment/approval/${id}`);
     };
     const rows =[...FormList].map(value=>
 
@@ -81,13 +79,8 @@ const RequisitionTab = () => {
 
     return(
     <Fragment>
-        <Link to="/utils/recruitment/new">
-        <Button style={{marginBottom:"10px"}}variant="outlined" startIcon={<AddOutlinedIcon />} size="large" href="/utils/recruitment/new">  
-            New Requisition
-        </Button>
-        </Link>
         <DataTable />
     </Fragment>
 )};
 
-export default RequisitionTab;
+export default ApprovalTab;

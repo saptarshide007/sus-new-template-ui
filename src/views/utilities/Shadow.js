@@ -9,6 +9,8 @@ import { useState, React } from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
+import ApprovalTab from './reqisition-tabs/ApprovalTab';
+import { Fade } from 'react-reveal';
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -44,27 +46,29 @@ function UtilitiesShadow() {
         };
     }
     return (
+        <Fade>
         <MainCard title="Recruitment">
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="My Requisition" {...a11yProps(0)} />
-                    <Tab label="Requisition" {...a11yProps(1)} />
-                    <Tab label="Talent Search" {...a11yProps(2)} />
-                    <Tab label="Interviews" {...a11yProps(3)} />
+                    <Tab label="All Requisition" {...a11yProps(1)} />
+                    <Tab label="Pending Approval" {...a11yProps(2)} />
+                    <Tab label="Approved" {...a11yProps(3)} />
                     <Tab label="Pannel Reviews" {...a11yProps(4)} />
-                    <Tab label="Approval" {...a11yProps(5)} />
+                    <Tab label="Talent Search" {...a11yProps(5)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
                 <RequisitionTab />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Item Two
+                <RequisitionTab />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <ApprovalTab/>
             </TabPanel>
         </MainCard>
+        </Fade>
     );
 }
 
