@@ -19,6 +19,7 @@ class JobTypeListData {
       { code: "IT", description: "This is a sample description" },
       { code: "Mechanical", description: "Meachanocal description" },
       { code: "Civil", description: "CivilDescription" },
+      { code: "Electrical", description: "CivilDescription" },
     ];
   }
   getList() {
@@ -51,6 +52,8 @@ class QualificationListData {
       { code: "10th", description: "" },
       { code: "12th", description: "" },
       { code: "B.tech", description: "" },
+      { code: "M.tech", description: "" },
+      { code: "Phd", description: "" },
     ];
   }
   getList() {
@@ -66,6 +69,7 @@ class RolesListData {
       { code: "Manager", description: "" },
       { code: "Senior Developer", description: "" },
       { code: "Director", description: "" },
+      { code: "Site Manager", description: "" },
     ];
   }
   getList() {
@@ -79,7 +83,7 @@ class RolesListData {
 class WorkAuthListData {
   constructor(workAuthList) {
     this.workAuthList = [
-      { code: "Australia", description: "" },
+      { code: "Australia Mining Licence", description: "" },
       { code: "India", description: "" },
       { code: "Mining", description: "" },
     ];

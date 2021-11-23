@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import TextField from '@mui/material/TextField';
@@ -17,11 +16,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-
 const ViewFormTemplate = (props) => {
-
     const formData = props.formData;
-
 
     function ConfigTable(props) {
         return (
@@ -50,74 +46,136 @@ const ViewFormTemplate = (props) => {
 
     return (
         <React.Fragment>
+            <Stack direction="row" alignItems="center" spacing={1}>
+                <Stack spacing={3}>
                     <Stack direction="row" alignItems="center" spacing={1}>
-                        <Stack spacing={3}>
-                            <Stack direction="row" alignItems="center" spacing={1}>
-                                <TextField
-                                    required
-                                    id="outlined-read-only-input"
-                                    label="Position"
-                                    defaultValue={formData.position}
-                                    size="small"
-                                    InputProps={{
-                                        readOnly: true
-                                    }}
-                                    sx={{ width: 300 }}
-                                />
-                                <TextField
-                                    required
-                                    id="outlined-read-only-input"
-                                    label="Job Type"
-                                    defaultValue={formData.type.code}
-                                    size="small"
-                                    InputProps={{
-                                        readOnly: true
-                                    }}
-                                    sx={{ width: 300 }}
-                                />
-                            </Stack>
-                            <Stack direction="row" alignItems="center" spacing={1} sx={{ width: 300 }}>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        label="Start Date"
-                                        value={formData.startDate}
-                                        fullWidth
-                                        disabled
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DatePicker
-                                        label="Stop Date"
-                                        value={formData.endDate}
-                                        disabled
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </Stack>
-                            <Stack sx={{ marginTop: 1 }}>
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    value={formData.description}
-                                    label="Description"
-                                    multiline
-                                    rows={4}
-                                    InputProps={{
-                                        readOnly: true
-                                    }}
-                                />
-                            </Stack>
-                            <Stack direction="row" spacing={5}>
-                                <ConfigTable propertyName="Skills" rows={[...formData.skills].map((value) => value[1])} />
-                                <ConfigTable propertyName="Roles" rows={[...formData.roles].map((value) => value[1])} />
-                            </Stack>
-
-                            <Stack direction="row" spacing={5}>
-                                <ConfigTable propertyName="Qualification" rows={[...formData.qualification].map((value) => value[1])} />
-                                <ConfigTable propertyName="Certification" rows={[...formData.certification].map((value) => value[1])} />
-                            </Stack>
-                        </Stack>
+                        <TextField
+                            required
+                            id="outlined-read-only-input"
+                            label="Position"
+                            defaultValue={formData.position}
+                            size="small"
+                            InputProps={{
+                                readOnly: true
+                            }}
+                            sx={{ width: 300 }}
+                        />
+                        <TextField
+                            required
+                            id="outlined-read-only-input"
+                            label="Job Type"
+                            defaultValue={formData.type.code}
+                            size="small"
+                            InputProps={{
+                                readOnly: true
+                            }}
+                            sx={{ width: 300 }}
+                        />
                     </Stack>
+                    <Stack direction="row" alignItems="center" spacing={1} sx={{ width: 300 }}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                label="Start Date"
+                                value={formData.startDate}
+                                fullWidth
+                                disabled
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <DatePicker
+                                label="Stop Date"
+                                value={formData.endDate}
+                                disabled
+                                renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </Stack>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                        <TextField
+                            required
+                            id="outlined-read-only-input"
+                            label="Requisition Country"
+                            defaultValue={formData.location.country}
+                            size="small"
+                            InputProps={{
+                                readOnly: true
+                            }}
+                            sx={{ width: 300 }}
+                        />
+                        <TextField
+                            required
+                            id="outlined-read-only-input"
+                            label="Requisition Region"
+                            defaultValue={formData.location.region}
+                            size="small"
+                            InputProps={{
+                                readOnly: true
+                            }}
+                            sx={{ width: 300 }}
+                        />
+                    </Stack>
+                    <Stack sx={{ marginTop: 1 }}>
+                        <TextField
+                            id="outlined-multiline-static"
+                            value={formData.description}
+                            label="Description"
+                            multiline
+                            rows={4}
+                            InputProps={{
+                                readOnly: true
+                            }}
+                        />
+                    </Stack>
+                    <Stack direction="row" spacing={5}>
+                        <ConfigTable propertyName="Skills" rows={[...formData.skills].map((value) => value[1])} />
+                        <ConfigTable propertyName="Roles" rows={[...formData.roles].map((value) => value[1])} />
+                    </Stack>
+                    <Stack sx={{ marginTop: 1 }}>
+                        <TextField
+                            id="outlined-multiline-static"
+                            value={formData.jobRequirementNotes}
+                            label="RequirementNotes"
+                            multiline
+                            rows={3}
+                            InputProps={{
+                                readOnly: true
+                            }}
+                        />
+                    </Stack>
+                    <Stack direction="row" spacing={5}>
+                        <ConfigTable propertyName="Qualification" rows={[...formData.qualification].map((value) => value[1])} />
+                        <ConfigTable propertyName="Certification" rows={[...formData.certification].map((value) => value[1])} />
+                    </Stack>
+                    <Stack sx={{ marginTop: 1 }}>
+                        <TextField
+                            id="outlined-multiline-static"
+                            value={formData.qualificationNotes}
+                            label="QualificationNotes"
+                            multiline
+                            rows={3}
+                            InputProps={{
+                                readOnly: true
+                            }}
+                        />
+                    </Stack>
+                    <Stack direction="row" spacing={5}>
+                        <ConfigTable propertyName="WorkAuthorization" rows={[...formData.workAuthorizaion].map((value) => value[1])} />
+                    </Stack>
+                    <Stack sx={{ marginTop: 1 }}>
+                        <TextField
+                            id="outlined-multiline-static"
+                            value={formData.locationNotes}
+                            label="Location & WorkAuthorization"
+                            multiline
+                            rows={3}
+                            InputProps={{
+                                readOnly: true
+                            }}
+                        />
+                    </Stack>
+                </Stack>
+            </Stack>
         </React.Fragment>
     );
 };

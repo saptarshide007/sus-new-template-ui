@@ -17,10 +17,22 @@ const [weight,setWeight]=useState(propertyChangeHandler.get(value).weight);
     const mandatoryChangeHandler = (flag) => {
         setMandatory(flag);
         propertyChangeHandler.get(value).mandatory=flag;
+        if(flag)
+        {
+            weightChangeHandler(10);
+        }
+        else
+        if(!flag)
+        {
+            weightChangeHandler(1);
+        }
+    };
+    const remove = () => {
+        propertyChangeHandler.delete(value);
     };
     return (
         <Fade left>
-            <div className={`${styles['box']}`}>
+            <div className={`${styles['box']}`} onDoubleClick={remove}>
                 <div className={`${styles['box__inner']}`}>
                     <Grid container spacing={1}>
                         <Grid item xs={7}>
@@ -50,6 +62,7 @@ const [weight,setWeight]=useState(propertyChangeHandler.get(value).weight);
                                 min={1}
                                 max={10}
                                 onChange={(event) => weightChangeHandler(event.target.value)}
+                                disabled={isMandatory}
                             />
                         </Grid>
                     </Grid>
@@ -59,7 +72,6 @@ const [weight,setWeight]=useState(propertyChangeHandler.get(value).weight);
     );
 };
 const ListSelector = (props) => {
-    console.log(props.propertyChangeHandler);
     return (
         <div className={`${styles['skill-list-wrapper']}`}>
             {props.list.map((k) => (

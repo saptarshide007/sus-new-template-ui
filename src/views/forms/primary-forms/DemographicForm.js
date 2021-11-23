@@ -8,12 +8,18 @@ import Slider from '@mui/material/Slider';
 import TextField from '@mui/material/TextField';
 const DemographicForm = (props) => {
     const [selectAuthList, setSelectAuthList] = useState([...props.formData.workAuthorizaion].map((value)=>value[1]));
-    const [country, selectCountry] = useState('');
-    const [region, selectRegion] = useState('');
+    const [country, selectCountry] = useState(props.formData.location.country);
+    const [region, selectRegion] = useState(props.formData.location.region);
     const [value, setValue] = React.useState([50, 100]);
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        props.formData.locationProximity=newValue;
     };
+    const updateRegion=(region)=>{
+        selectRegion(region);
+        props.formData.location={country:country,region:region}
+
+    }
     
     const RegionSelector = () => {
         return (
@@ -31,7 +37,7 @@ const DemographicForm = (props) => {
                 <RegionDropdown
                     country={country}
                     value={region}
-                    onChange={(val) => selectRegion(val)}
+                    onChange={(val) => updateRegion(val)}
                     style={{
                         borderRadius: '12px',
                         border: '1px solid #ccc',
@@ -48,13 +54,13 @@ const DemographicForm = (props) => {
     const addSelectedWorkAuth = (newWorkAuth) => {
         if (!selectAuthList.map((k) => k.value).includes(newWorkAuth)) {
             setSelectAuthList((prevList) => {
-                return [{ label: newWorkAuth, value: newWorkAuth, mandatory: false, weight: 0 }, ...prevList];
+                return [{ label: newWorkAuth, value: newWorkAuth, mandatory: false, weight: 1 }, ...prevList];
             });
             props.formData.workAuthorizaion.set(newWorkAuth,{
                 label: newWorkAuth,
                 value: newWorkAuth,
                 mandatory: false,
-                weight: 0
+                weight: 1
             });
         }
     };
@@ -106,51 +112,3 @@ const DemographicForm = (props) => {
     );
 };
 export default DemographicForm;
-
-// <React.Fragment>
-//         <Fade>
-//                 <div style={{ display: 'block' }}>
-//                     <Form.Group as={Row} className="mb-4" controlId="formHorizontalEmail">
-//                         <Col sm={5}>
-//                             <RegionSelector />
-//                         </Col>
-//                     </Form.Group>
-//                     <Form.Group as={Row} className="mb-4" controlId="formHorizontalEmail">
-//                         <Form.Label column sm={3}>
-//                             Minimum Proximity:
-//                         </Form.Label>
-//                         <Col sm={5}>
-//                             <Form.Control
-//                                 type="text"
-//                                 placeholder=""
-//                                 onChange={(e) => formChangeHandler(2, e.target.value)}
-//                                 value={description}
-//                             />
-//                         </Col>
-//                     </Form.Group>
-//                     <Form.Group as={Row} className="mb-4" controlId="formHorizontalEmail">
-//                         <Form.Label column sm={3}>
-//                             Maximum Proximity:
-//                         </Form.Label>
-//                         <Col sm={5}>
-//                             <Form.Control
-//                                 type="text"
-//                                 placeholder=""
-//                                 onChange={(e) => formChangeHandler(2, e.target.value)}
-//                                 value={description}
-//                             />
-//                         </Col>
-//                     </Form.Group>
-//                 </div>
-//                 <SelectorTypeForm
-//                     title="Work Authorization:"
-//                     selectorList={props.workAuthList}
-//                     selectedItemList={selectAuthList}
-//                     createNewItemHandler={props.addNewWorkAuth}
-//                     addSelectedItemHandler={addSelectedWorkAuth}
-//                     secondaryForm={'WorkAuth'}
-//                     icon={<MdAdminPanelSettings style={{ fontSize: '35px' }} />}
-//                     cardSize={900}
-//                 />
-//         </Fade>
-//     </React.Fragment>

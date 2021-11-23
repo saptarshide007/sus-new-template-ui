@@ -5,7 +5,7 @@ import { SkillData, JobTypeData, CertData, QualificationData, RolesData, WorkAut
 import QualificationForm from '../primary-forms/QualificationForm';
 import RequirementForm from '../primary-forms/RequirementForm';
 import FormTemplate from '../form-utility/FormTemplate';
-
+import FinancialForm from '../primary-forms/FinanacialForm';
 let formData = new FormTemplate().getNewForm();
 export const getCompleteForm=()=>{
  return formData;
@@ -74,6 +74,7 @@ const Forms = (props) => {
             />
         );
     if (props.form === 3) return <DemographicForm workAuthList={workAuthList} addNewWorkAuth={addNewWorkAuth} formData={formData} />;
+    if (props.form === 4) return <FinancialForm workAuthList={workAuthList} addNewWorkAuth={addNewWorkAuth} formData={formData} />;
 };
 
 export default Forms;

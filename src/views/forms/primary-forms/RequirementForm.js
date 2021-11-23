@@ -10,8 +10,10 @@ const RequirementForm = (props) => {
     /*-------local form data--------*/
     const [selectSkillList, setSelectSkillList] = useState([...props.formData.skills].map((value) => value[1]));
     const [selectRoleList, setSelectRoleList] = useState([...props.formData.roles].map((value) => value[1]));
+    const [description, setDescription] = useState(props.formData.jobRequirementNotes);
     /*------------------------------*/
     const addSelectedSkills = (newSkill) => {
+        console.log(props.formData);
         console.log(props.formData.skills);
         if (!selectSkillList.map((k) => k.value).includes(newSkill)) {
             setSelectSkillList((prevList) => {
@@ -38,12 +40,17 @@ const RequirementForm = (props) => {
             });
         }
     };
+    const addDescription=(description)=>{
+        props.formData.jobRequirementNotes=description;
+        setDescription(description);
+
+    }
     return (
         <React.Fragment>
             <Fade>
                 <Stack direction="row" spacing={1}>
                     <SelectorTypeForm
-                        title="Select Skills"
+                        title="Skills"
                         selectorList={props.skillList}
                         selectedItemList={selectSkillList}
                         createNewItemHandler={props.addNewSkill}
@@ -54,7 +61,7 @@ const RequirementForm = (props) => {
                         propertyChangeHandler={props.formData.skills}
                     />
                     <SelectorTypeForm
-                        title="Select Roles"
+                        title="Roles"
                         selectorList={props.roleList}
                         selectedItemList={selectRoleList}
                         createNewItemHandler={props.addNewRole}
@@ -66,7 +73,10 @@ const RequirementForm = (props) => {
                     />
                 </Stack>
                 <Stack sx={{ marginTop: 1 }}>
-                    <TextField id="outlined-multiline-static" label="Notes" multiline rows={4} />
+                    <TextField id="outlined-multiline-static" label="Notes" multiline rows={4} value={description}
+                    onChange={(e)=>{
+                        addDescription(e.target.value)
+                    }}/>
                 </Stack>
             </Fade>
         </React.Fragment>

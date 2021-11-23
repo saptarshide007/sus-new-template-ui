@@ -15,15 +15,12 @@ import TextField from '@mui/material/TextField';
 
 import AddBoxIcon from '@mui/icons-material/AddBox';
 const SelectorTypeForm = (props) => {
-    console.log(props.selectorList)
-    const [selectedSkill, setSelectedSkill] = useState('');
-
+    let selectedSkill;
     const addHandler = () => {
         if (selectedSkill !== '') props.addSelectedItemHandler(selectedSkill);
     };
     const selectionChangeHandler = (value) => {
-        setSelectedSkill(value.label);
-        setselectedValue(value);
+        selectedSkill = value.label;
     };
 
     const style = {
@@ -68,22 +65,17 @@ const SelectorTypeForm = (props) => {
                 ...option
             };
         });
-    const [selectedValue, setselectedValue] = useState(options[0]);
 
-    const cardSize=props.cardSize<450?450:props.cardSize;
-    const autoCompleteSize=cardSize/3;
-    const buttonGridSize=cardSize>600?1.5:2.5;
+    const cardSize = props.cardSize < 450 ? 450 : props.cardSize;
+    const autoCompleteSize = cardSize / 3;
+    const buttonGridSize = cardSize > 600 ? 1.5 : 2.5;
     const Title = () => {
         return (
             <React.Fragment>
                 <Grid container spacing={1}>
-                    <Grid item>
-                        {props.icon}
-                        </Grid>
+                    <Grid item>{props.icon}</Grid>
                     <Grid item xs={5}>
-                        
                         <Autocomplete
-                            value={selectedValue}
                             id="grouped-demo"
                             options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
                             getOptionLabel={(option) => option.value}

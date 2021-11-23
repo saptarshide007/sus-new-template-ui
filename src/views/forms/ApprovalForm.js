@@ -45,12 +45,15 @@ const ApprovalForm = (props) => {
             formData.status = 'APPROVED';
         }
         if (id == 2) {
+            formData.rejectedReason.title= notes.title;
+            formData.rejectedReason.description= notes.description;
             formData.changedOn = new Date();
 
             formData.status = 'REJECTED';
         }
         if (id == 3) {
-            formData.reWork = notes;
+            formData.reWork.title= notes.title;
+            formData.reWork.description= notes.description;
 
             formData.status = 'REWORK';
         }
@@ -62,7 +65,7 @@ const ApprovalForm = (props) => {
     };
 
     function BasicPopover(props) {
-        let notes="";
+        let notes={title:"",description:""};
         const [anchorEl, setAnchorEl] = React.useState(null);
 
         const handleClick = (event) => {
@@ -93,12 +96,21 @@ const ApprovalForm = (props) => {
                 >
                     <Stack alignItems="center" spacing={1}>
                         <TextField
+                                required
+                                id="outlined-required"
+                                label="Title"
+                                size="small"
+                                sx={{ width: 300 }}
+                                onChange={(e) => {notes.title=e.target.value}}
+                    
+                            />
+                        <TextField
                             id="outlined-multiline-static"
                             label="Reason"
                             multiline
                             rows={4}
                             sx={{ width: 400 }}
-                            onChange={(e) => {notes=e.target.value}}
+                            onChange={(e) => {notes.description=e.target.value}}
                         />
 
                         <Button color="secondary" variant="outlined" size="medium" onClick={() => submitForm(props.formId,notes)}>

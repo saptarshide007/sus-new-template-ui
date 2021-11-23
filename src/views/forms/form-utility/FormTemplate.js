@@ -9,7 +9,8 @@ export default class FormTemplate {
             skills: new Map(),
             certification: new Map(),
             qualification: new Map(),
-            location: [],
+            location: {},
+            locationProximity:[],
             workAuthorizaion: new Map(),
             financial: [],
             roles: new Map(),
@@ -22,8 +23,8 @@ export default class FormTemplate {
             changedOn:null,
             createdBy:'',
             approvedBy:'',
-            rejectedReason:'',
-            reWork:''
+            rejectedReason:{title:"",description:""},
+            reWork:{title:"",description:""}
             
 
         };

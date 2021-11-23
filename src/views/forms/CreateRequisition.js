@@ -6,42 +6,43 @@ import MainCard from 'ui-component/cards/MainCard';
 import SubCard from 'ui-component/cards/SubCard';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { Grid, Button,TextField } from '@mui/material';
+import { Grid, Button, TextField, ButtonGroup, Stack } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import PropTypes from 'prop-types';
 import { SubmitForm } from './data/Data';
 import { useNavigate } from 'react-router-dom';
 import { Fade } from 'react-reveal';
-import { red, green, orange, grey } from '@mui/material/colors';
+import { red } from '@mui/material/colors';
+import SaveIcon from '@mui/icons-material/Save';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 const CreateRequisition = (props) => {
-    let title = 'Create New Requisition';
+    let title = 'Create';
     if (props.isEdit) {
         PositionForm.setForm(props.FormId);
-        title = 'Edit Requisition';
-    } else {
-        PositionForm.refreshForm();
+        title = 'Edit';
     }
     const ReworkNotes = () => {
-        console.log(PositionForm.getCompleteForm());
         if (PositionForm.getCompleteForm().status === 'REWORK') {
-            console.log('-----------------------');
-            return( <Grid item xs={50}>
-                <SubCard title="ReWork Notes">
-                    <TextField
-                    error
-                        id="outlined-multiline-static"
-                        value={PositionForm.getCompleteForm().reWork}
-                        label="Description"
-                        multiline
-                        rows={4}
-                        sx={{ width: 600,color:red[500] }}
-                        InputProps={{
-                            readOnly: true
-                        }}
-                    />
-                </SubCard>
-            </Grid>);
-        }
-         else {
+            return (
+                <Grid item xs={50}>
+                    <SubCard title="ReWork Notes">
+                        <TextField
+                            error
+                            id="outlined-multiline-static"
+                            value={PositionForm.getCompleteForm().reWork.description}
+                            label="Description"
+                            multiline
+                            rows={4}
+                            sx={{ width: 600, color: red[500] }}
+                            InputProps={{
+                                readOnly: true
+                            }}
+                        />
+                    </SubCard>
+                </Grid>
+            );
+        } else {
             return <React.Fragment></React.Fragment>;
         }
     };
@@ -111,47 +112,46 @@ const CreateRequisition = (props) => {
     const Title = () => {
         return (
             <React.Fragment>
-                <Grid container spacing={1}>
-                    <Grid item xs={8}>
-                        <Typography variant="h3" component="h3">
-                            {title}
-                        </Typography>
-                    </Grid>
+                <Stack spacing={1} direction="row">  
+                    <Typography variant="h3" component="h3">
+                        {title}
+                    </Typography>
 
-                    <Grid item xs={0}>
-                        <Button
-                            variant="contained"
-                            color="success"
+                    <ButtonGroup variant="outlined" aria-label="outlined primary button group" style={{marginLeft:"61vw"}}>
+                        <IconButton
+                            color="primary"
+                            aria-label="upload picture"
+                            component="span"
                             onClick={() => {
                                 submitForm(1);
                             }}
                         >
-                            Save
-                        </Button>
-                    </Grid>
-                    <Grid item xs={0}>
-                        <Button
-                            variant="contained"
-                            color="success"
+                            <CreateOutlinedIcon />
+                        </IconButton>
+
+                        <IconButton
+                            color="primary"
+                            aria-label="upload picture"
+                            component="span"
                             onClick={() => {
                                 submitForm(2);
                             }}
                         >
-                            Submit
-                        </Button>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Button
-                            variant="contained"
-                            color="error"
+                            <SaveIcon />
+                        </IconButton>
+
+                        <IconButton
+                            color="primary"
+                            aria-label="upload picture"
+                            component="span"
                             onClick={() => {
                                 submitForm(3);
                             }}
                         >
-                            Discard
-                        </Button>
-                    </Grid>
-                </Grid>
+                            <DoDisturbIcon />
+                        </IconButton>
+                    </ButtonGroup>
+                </Stack>
             </React.Fragment>
         );
     };
@@ -183,6 +183,9 @@ const CreateRequisition = (props) => {
                             </TabPanel>
                             <TabPanel value={value} index={2}>
                                 {PositionForm.getForm(3)}
+                            </TabPanel>
+                            <TabPanel value={value} index={3}>
+                                {PositionForm.getForm(4)}
                             </TabPanel>
                         </SubCard>
                     </Grid>
